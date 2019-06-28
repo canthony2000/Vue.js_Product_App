@@ -1,3 +1,5 @@
+Vue.config.devtools = true
+
 Vue.component('productDetails', {
   props: {
     details: {
@@ -49,10 +51,6 @@ props: {
           Add to Cart
         </button>
         <button v-on:click="removeFromCart">Remove</button>
-        <div class="cart">
-          <p>cart ({{cart}})</p>
-        </div>
-
       </div>
     </div>
   `,
@@ -76,12 +74,11 @@ props: {
           variantImage: './assets/vmSocks-blue-onWhite.jpg',
         },
       ],
-      cart: 0,
     }
   }, 
   methods: {
     addToCart() {
-      this.cart += 1;
+      this.$emit('add-to-cart')
     },
     updateProduct(variantImage) {
       this.image = variantImage;
@@ -109,5 +106,11 @@ var app = new Vue({
   el: '#app',
   data: {
     premium: false,
+    cart: 0,
+  },
+  methods: {
+    updateCart() {
+      this.cart += 1;
+    }
   },
 })
