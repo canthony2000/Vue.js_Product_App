@@ -50,7 +50,11 @@ props: {
         >
           Add to Cart
         </button>
-        <button v-on:click="removeFromCart">Remove</button>
+        <button
+          v-on:click="removeFromCart"
+        >
+          Remove
+        </button>
       </div>
     </div>
   `,
@@ -79,15 +83,13 @@ props: {
   }, 
   methods: {
     addToCart() {
-      this.$emit('add-to-cart')
+      this.$emit('add-to-cart', this.variants[this.selectedVariant].variantId)
     },
     updateProduct(index) {
       this.selectedVariant = index
     },
     removeFromCart() {
-      if (this.cart > 0) {
-        this.cart -= 1;
-      }
+      this.$emit('remove-from-cart', this.variants[this.selectedVariant].variantId)
     },
   },
   computed: {
@@ -118,6 +120,12 @@ var app = new Vue({
   methods: {
     updateCart(id) {
       this.cart.push(id)
-    }
+    },
+    removeFromCart(id) {
+      const index = this.cart.indexOf(id)
+      if (index !== -1) {
+        this.cart.splice(index, 1);
+      }
+    },
   },
 })
